@@ -1,0 +1,9 @@
+{% extends "webapp/base.html" %}
+{% block title %}About Us {% endblock %}
+{% block body %}
+    {% for c in dict_content %}
+        <p> {{c}} </p>
+    {% endfor %}
+
+
+{% endblock %}

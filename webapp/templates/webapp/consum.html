@@ -1,0 +1,14 @@
+{% extends "webapp/head.html" %}
+{% block title %}Intake Items{% endblock %}
+{% block content %}
+{% if object_list %}
+    <h3>Items Bought:</h3>
+        <ol>
+            {% for item in object_list %}
+                <li><a href="{% url 'webapp:details' item.item_code %}">{{ item.date_consum }}</a></li>
+            {% endfor %}
+        </ol>
+{% else %}
+    <h3>No Items Bought<h3>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "webapp/head.html" %}
+{% block title %}Whouse{% endblock %}
+{% block content %}
+{% if object_list %}
+    <h3>Ware house list:</h3>
+        <ol>
+            {% for item in object_list %}
+                <li><a href="{% url 'webapp:details' item.whouse_code %}">{{ item.whouse_name }}</a></li>
+            {% endfor %}
+        </ol>
+{% else %}
+    <h3>No ware house registered<h3>
+{% endif %}
+{% endblock %}

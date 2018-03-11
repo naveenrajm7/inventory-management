@@ -1,0 +1,22 @@
+to work with MySql in django
+
+ sudo apt-get update
+ sudo apt-get install mysql-server
+
+ mysql -u root -p
+ create database inventory;
+ use inventory
+source /home/naveen/Documents/dbms/pro_inventory.sql
+
+
+sudo apt-get install libmysqlclient-dev
+
+(in virtual)
+django-admin startproject website
+pip install mysqlclient
+python manage.py startapp webapp
+
+python manage.py inspectdb > webapp/models.py
+
+python manage.py migrate
+python manage.py createsuperuser

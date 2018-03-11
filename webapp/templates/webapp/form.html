@@ -1,0 +1,44 @@
+{% extends 'webapp/base.html' %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+
+<div class = "col-sm-6 col-sm-offset-3">
+    <h3>{{ title }}</h3>
+    <form method='POST' action='' enctype='multipart/form-data'>
+        {% csrf_token %}
+        {% if form.errors %}
+        <p style="color: red;">
+           Please correct the error{{ form.errors|pluralize }} below.
+        </p>
+        {% endif %}
+        <div class="form-group has-error">
+          <!-- Username -->
+          <label class="control-label"  for="{{ form.username.id_for_label }}">Username</label>
+          <div class="controls">
+            <input class = "form-control" type="text" id="username" name="username" placeholder="" class="input-xlarge">
+            {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="form-group has-error">
+          <!-- Password-->
+          <label class="control-label" for="{{ form.password.id_for_label }}">Password</label>
+          <div class="controls">
+            <input type="password" id="password" name="password" placeholder="" class="input-xlarge">
+            <span class = "help-block"> {{ form.password.errors }}<span>
+          </div>
+        </div>
+        <div class="control-group">
+          <!-- Button -->
+          <div class="controls">
+            <button class="btn btn-success">Login</button>
+          </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
