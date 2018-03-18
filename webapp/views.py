@@ -95,9 +95,11 @@ class WhouseInDelete(DeleteView):
 def update_master(request):
     template_name = 'webapp/home.html' #which template should i use to return?
     with connection.cursor() as cursor:
-        cursor.execute("alter VIEW `item_wise_issued_list` AS (select `issue_in`.`item_code` AS `item_code`,sum(`issue_in`.`Item_issue_qty`) AS `item_total_issues` \
+        cursor.execute("DROP VIEW IF EXISTS `item_consume_list`;")
+        cursor.execute("DROP VIEW IF EXISTS `item_wise_issued_list`;")
+        cursor.execute("create VIEW `item_wise_issued_list` AS (select `issue_in`.`item_code` AS `item_code`,sum(`issue_in`.`Item_issue_qty`) AS `item_total_issues` \
         from `issue_in` group by `issue_in`.`item_code`);")
-        cursor.execute("alter VIEW `item_consume_list` AS select `consum_in`.`item_code` AS `item_code`,sum(`consum_in`.`Item_consum_qty`) AS `item_total_consum` \
+        cursor.execute("create VIEW `item_consume_list` AS select `consum_in`.`item_code` AS `item_code`,sum(`consum_in`.`Item_consum_qty`) AS `item_total_consum` \
         from `consum_in` group by `consum_in`.`item_code`;")
         cursor.execute("Update master_in a,item_wise_issued_list b \
         Set a.item_bal_qty = a.item_bal_qty +b.item_total_issues  Where a.item_code=b.item_code ;")
