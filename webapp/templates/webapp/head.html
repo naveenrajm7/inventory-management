@@ -7,6 +7,9 @@
 	{% load staticfiles %}
 	<link rel="stylesheet" href="{% static 'webapp/css/bootstrap.min.css' %}" type = "text/css"/>
 	<meta name="viewport" content = "width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'webapp/css/sidebar.css' %}">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
 
 	<style type="text/css">
 		html,
@@ -18,15 +21,14 @@
 
 <body class="body" style="background-color:#f6f6f6">
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
-  <div class="container">
 
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+            <a href="" class="btn btn-info btn-lg" id="menu-toggle"> <span class="glyphicon glyphicon-list"></span></a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">My app</a>
         </div>
 
     <div class="collapse navbar-collapse">
@@ -64,20 +66,41 @@
       <ul class="nav navbar-nav navbar-right">
           <li>
             <a href="/logout/" data-toggle="modal" data-target="#logoutModal">
-            <span class="glyphicon glyphicon-off" aria-hidden="true"> Logout</span>
+            <span class="glyphicon glyphicon-off" aria-hidden="true"> Logout </span>
             </a>
           </li>
       </ul>
     </div>
-
-  </div>
 </nav>
+    <div id ="wrapper">
+    <!-- sidebar -->
+    <div id = "sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li><a href="/consum">InFlow</a></li>
+            <li><a href="/issue">OutFlow</a></li>
+            <li><a href="/whouse">Ware House</a></li>
+       </ul>
+    </div>
 
-<!-- /.container -->
-<p>
-    {% block content %}
-    {% endblock %}
-</p>
+        <!-- /.page container -->
+    <div id ="page-content-wrapper">
+        <div class="container-fluid">
+            <p>
+                {% block content %}
+                {% endblock %}
+            </p>
+        </div>
+    </div>
+
+    </div>
+    <!-- Menu toggle script -->
+    <script>
+        $('#menu-toggle').click(
+         function(e) {
+                e.preventDefault();
+                $('#wrapper').toggleClass("menuDispalyed");
+            });
+    </script>
 <!-- Small modal -->
 <div class="modal" id="logoutModal" tabindex="-1" role="dialog" aria-hidden="true">
 <div class="modal-dialog modal-sm">
