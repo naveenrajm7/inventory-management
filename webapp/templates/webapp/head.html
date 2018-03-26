@@ -9,6 +9,7 @@
 	<meta name="viewport" content = "width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'webapp/css/sidebar.css' %}">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="{% static 'webapp/js/nav-active.js' %}"></script>
 
 
 	<style type="text/css">
@@ -31,32 +32,37 @@
           </button>
         </div>
 
-    <div class="collapse navbar-collapse">
+    <div class="collapse navbar-collapse ">
       <ul class="nav navbar-nav">
         <li class="active">
             <a href="/home/">Home</a>
         </li>
-        <li class="active">
+        <li>
             <a href="{% url 'webapp:master-add' %}">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"> Add</span>
             </a>
         </li>
-        <li class="active">
+        <li>
             <a href="{% url 'webapp:consum-add' %}">
             <span class="glyphicon glyphicon-circle-arrow-down" aria-hidden="true"> Buy</span>
             </a>
         </li>
-        <li class="active">
+        <li>
             <a href="{% url 'webapp:issue-add' %}">
             <span class="glyphicon glyphicon-circle-arrow-up" aria-hidden="true"> Sell</span>
             </a>
         </li>
-        <li class="active">
+        <li>
             <a href="{% url 'webapp:whouse-add' %}">
             <span class="glyphicon glyphicon-circle-plus" aria-hidden="true"> Ware</span>
             </a>
         </li>
-        <li class="active">
+        <li>
+            <a href="{% url 'webapp:item-add' %}">
+            <span class="glyphicon glyphicon-circle-plus" aria-hidden="true"> Item</span>
+            </a>
+        </li>
+        <li>
             <a href="{% url 'webapp:master-update' %}">
             <span class="glyphicon glyphicon-refresh" aria-hidden="true"> Update</span>
             </a>
@@ -79,6 +85,10 @@
             <li><a href="/consum">InFlow</a></li>
             <li><a href="/issue">OutFlow</a></li>
             <li><a href="/whouse">Ware House</a></li>
+            <li><a href="/item">Items</a></li>
+            <li><a href="/fsn">FSN</a></li>
+            <li><a href="/reorder">Reorder List</a></li>
+
        </ul>
     </div>
 

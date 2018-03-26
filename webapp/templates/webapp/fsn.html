@@ -1,0 +1,14 @@
+{% extends "webapp/head.html" %}
+{% block title %} {{ title }}{% endblock %}
+{% block content %}
+    <h3> {{ title }}</h3>
+        <ol>
+            {% for dic in object_list %}
+                {% for key,val in dic.items %}
+                    {% if key == "frequency" %}
+                    <li> {{ key }} {{ val }} </li>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </ol>
+{% endblock %}

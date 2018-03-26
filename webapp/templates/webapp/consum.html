@@ -5,7 +5,7 @@
     <h3>Items Bought:</h3>
         <ol>
             {% for item in object_list %}
-                <li><a href="{% url 'webapp:details' item.item_code %}">{{ item.date_consum }}</a></li>
+                <li>{{ item.item_code }} {{item.date_consum }}</li>
             {% endfor %}
         </ol>
 {% else %}
