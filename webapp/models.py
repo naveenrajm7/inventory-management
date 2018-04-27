@@ -23,6 +23,10 @@ class WhouseIn(models.Model):
     class Meta:
         #managed = False
         db_table = 'whouse_in'
+
+    def __str__(self):
+        return str(self.whouse_code) + '-' + self.whouse_name
+
     def get_absolute_url(self):
         return reverse('webapp:whouse', kwargs={})
 
@@ -40,13 +44,13 @@ class MasterIn(models.Model):
         db_table = 'master_in'
 
     def __str__(self):
-        return self.item_code + '-' + self.item_name
+        return str(self.item_code) + '-' + self.item_name
     def get_absolute_url(self):
-        return reverse('webapp:index', kwargs={})
+        return reverse('webapp:home', kwargs={})
 
 
 class ConsumIn(models.Model):
-    sl_no = models.IntegerField(primary_key=True)
+    sl_no = models.AutoField(primary_key=True)
     item_code = models.ForeignKey('MasterIn', models.DO_NOTHING, db_column='item_code', blank=False, null=False)
     date_consum = models.DateField(db_column='Date_consum', blank=False, null=False)  # Field name made lowercase.
     item_consum_qty = models.DecimalField(db_column='Item_consum_qty', max_digits=15, decimal_places=2, blank=False, null=False)  # Field name made lowercase.
@@ -62,7 +66,7 @@ class ConsumIn(models.Model):
 
 
 class IssueIn(models.Model):
-    sl_no = models.IntegerField(primary_key=True)
+    sl_no = models.AutoField(primary_key=True)
     item_code = models.ForeignKey('MasterIn', models.DO_NOTHING, db_column='item_code', blank=False, null=False)
     date_issue = models.DateField(db_column='Date_issue', blank=False, null=False)  # Field name made lowercase.
     item_issue_qty = models.DecimalField(db_column='Item_issue_qty', max_digits=15, decimal_places=2, blank=False, null=False)  # Field name made lowercase.

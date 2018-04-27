@@ -1,0 +1,14 @@
+{% extends "webapp/head.html" %}
+{% block title %} {{ title }}{% endblock %}
+{% block content %}
+{% if object_list %}
+    <h3> {{ title }}</h3>
+        <ol>
+            {% for item in object_list %}
+                <li>{{ item.item_code }} {{ item.item_name }} {{ item.Balance_qty }} {{ item.ordering_qty }}</li>
+            {% endfor %}
+        </ol>
+{% else %}
+    <h3>No Items to Reorder<h3>
+{% endif %}
+{% endblock %}

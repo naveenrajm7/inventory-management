@@ -1,6 +1,6 @@
 # modules for creating class and getting database object
 from django.views import generic
-from .models import MasterIn, IssueIn, ConsumIn, WhouseIn
+from .models import MasterIn, IssueIn, ConsumIn, WhouseIn, ItemIn
 # to render a template & to
 from django.shortcuts import render
 # to use login_required
@@ -92,8 +92,31 @@ class WhouseInDelete(DeleteView):
     model = WhouseIn
     success_url = reverse_lazy('webapp:whouse')
 
+class ItemInView(LoginRequiredMixin, generic.ListView):
+    login_url = '/login/'  # what is the login_url
+    redirect_field_name = '/login/'
+    template_name = 'webapp/item.html' #which template should i use to return?
+    def get_queryset(self):
+        return ItemIn.objects.all()
+
+class ItemInAdd(CreateView):
+    model = ItemIn
+    fields = ['item_code', 'item_name', 'item_reorder_qty', 'item_reorder_rate', 'item_reorder_level',
+            'item_vendor_name', 'item_vendor_address' ]
+
+def dictfetchall(cursor):
+    "Return all rows from a cursor as a dict"
+    columns = [col[0] for col in cursor.description]
+    return [
+        dict(zip(columns, row))
+        for row in cursor.fetchall()
+    ]
+
 def update_master(request):
     template_name = 'webapp/home.html' #which template should i use to return?
+    context = {
+        "object_list": MasterIn.objects.all()
+    }
     with connection.cursor() as cursor:
         cursor.execute("DROP VIEW IF EXISTS `item_consume_list`;")
         cursor.execute("DROP VIEW IF EXISTS `item_wise_issued_list`;")
@@ -105,4 +128,28 @@ def update_master(request):
         Set a.item_bal_qty = a.item_bal_qty +b.item_total_issues  Where a.item_code=b.item_code ;")
         cursor.execute("update master_in a,item_consume_list b set a.item_bal_qty=a.item_bal_qty - b.item_total_consum \
         where a.item_code=b.item_code;")
-    return render(request, template_name, {})
+    return render(request, template_name, context)
+
+def fast_moving(request):
+    template_name = 'webapp/fsn.html'
+    with connection.cursor() as cursor:
+        cursor.execute("select `consum_in`.`item_code` AS `item_code`,sum(`consum_in`.`Item_consum_qty`) AS `total_consumption`,count(0) AS `frequency` \
+        from `consum_in` group by `consum_in`.`item_code` order by count(0);")
+        fsn_list = dictfetchall(cursor)
+    context = {
+        "object_list": fsn_list,
+        "title": "FSN List"
+    }
+    return render(request, template_name, context)
+
+def reorder(request):
+    template_name = 'webapp/reorder.html'
+    with connection.cursor() as cursor:
+        queryset = cursor.execute("select `a`.`item_code` AS `item_code`,`a`.`Item_name` AS `item_name`,`a`.`Item_bal_qty` AS `Balance_qty`, \
+        `b`.`Item_reorder_qty` AS `ordering_qty`,`b`.`Item_vendor_name` AS `vendor name`,`b`.`Item_vendor_address` AS `Address` \
+        from (`master_in` `a` join `item_in` `b`) where ((`a`.`item_code` = `b`.`item_code`) and (`a`.`Item_bal_qty` <= `b`.`Item_reorder_level`));")
+    context = {
+        "object_list": queryset,
+        "title": "Reorder List"
+    }
+    return render(request, template_name, context)
