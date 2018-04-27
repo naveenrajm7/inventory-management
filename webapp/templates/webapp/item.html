@@ -11,6 +11,8 @@
           <th scope="col"><span style="color:white"><i>Item Reorder Qty</i></span></th>
           <th scope="col"><span style="color:white"><i>Item Reorder Level</i></span></th>
           <th scope="col"><span style="color:white"><i>Item Vendor Name</i></span></th>
+          <th scope="col"><span style="color:white"><i>Edit</i></span></th>
+          <th scope="col"><span style="color:white"><i>Delete</i></span></th>
         </tr>
       </thead>
         <tbody>
@@ -21,6 +23,8 @@
                 <td scope="row">{{ item.item_reorder_qty}}</td>
                 <td scope="row">{{ item.item_reorder_level}}</td>
                 <td scope="row">{{ item.item_vendor_name}}</td>
+                <td scope="row"><a href="{% url 'webapp:item-update' item.item_code %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                <td scope="row"><a href="{% url 'webapp:item-delete' item.item_code %}"><span class="glyphicon glyphicon-trash"></span></a></td>
             </tr>
             {% endfor %}
 

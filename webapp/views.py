@@ -64,18 +64,11 @@ class IssueInView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return IssueIn.objects.all()
 
-# to create a new ConsumIn --> buying something into Inventory
+# to create a new IssueIn --> selling something out of Inventory
 class IssueInAdd(CreateView):
     model = IssueIn
     fields = ['item_code', 'date_issue', 'item_issue_qty', 'item_issue_rate' ]
 
-class ItemInView(LoginRequiredMixin, generic.ListView):
-    login_url = '/login/'  # what is the login_url
-    redirect_field_name = '/login/'
-    template_name = 'webapp/item.html' #which template should i use to return?
-    #context_object_name = 'all_items' # for List it return object_list to change it to our name object use this
-    def get_queryset(self):
-        return ItemIn.objects.all()
 
 class WhouseInView(LoginRequiredMixin, generic.ListView):
     login_url = '/login/'  # what is the login_url
@@ -111,6 +104,15 @@ class ItemInAdd(CreateView):
     model = ItemIn
     fields = ['item_code', 'item_name', 'item_reorder_qty', 'item_reorder_rate', 'item_reorder_level',
             'item_vendor_name', 'item_vendor_address' ]
+
+class ItemInUpdate(UpdateView):
+    model = ItemIn
+    fields = ['item_code', 'item_name', 'item_reorder_qty', 'item_reorder_rate', 'item_reorder_level',
+            'item_vendor_name', 'item_vendor_address' ]
+
+class ItemInDelete(DeleteView):
+    model = ItemIn
+    success_url = reverse_lazy('webapp:item')
 
 def dictfetchall(cursor):
     "Return all rows from a cursor as a dict"
@@ -153,11 +155,13 @@ def fast_moving(request):
 def reorder(request):
     template_name = 'webapp/reorder.html'
     with connection.cursor() as cursor:
-        queryset = cursor.execute("select `a`.`item_code` AS `item_code`,`a`.`Item_name` AS `item_name`,`a`.`Item_bal_qty` AS `Balance_qty`, \
-        `b`.`Item_reorder_qty` AS `ordering_qty`,`b`.`Item_vendor_name` AS `vendor name`,`b`.`Item_vendor_address` AS `Address` \
+        cursor.execute("select `a`.`item_code` AS `item_code`,`a`.`Item_name` AS `item_name`,`a`.`Item_bal_qty` AS `Balance_qty`, \
+        `b`.`Item_reorder_level` AS `reorder_lvl`,`b`.`Item_vendor_name` AS `vendor_name`,`b`.`Item_vendor_address` AS `Address` \
         from (`master_in` `a` join `item_in` `b`) where ((`a`.`item_code` = `b`.`item_code`) and (`a`.`Item_bal_qty` <= `b`.`Item_reorder_level`));")
+        reorder_list = dictfetchall(cursor)
+
     context = {
-        "object_list": queryset,
+        "object_list": reorder_list,
         "title": "Reorder List"
     }
     return render(request, template_name, context)

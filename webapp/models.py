@@ -44,7 +44,11 @@ class MasterIn(models.Model):
         db_table = 'master_in'
 
     def __str__(self):
+        return str(self.item_code)
+
+    def __repr__(self):
         return str(self.item_code) + '-' + self.item_name
+
     def get_absolute_url(self):
         return reverse('webapp:home', kwargs={})
 
@@ -91,6 +95,9 @@ class ItemIn(models.Model):
     class Meta:
         #managed = False
         db_table = 'item_in'
+
+    def __str__(self):
+        return str(self.item_code) + '-' + self.item_name
 
     def get_absolute_url(self):
         return reverse('webapp:item', kwargs={})

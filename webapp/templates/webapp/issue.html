@@ -17,7 +17,7 @@
             {% for item in object_list %}
             <tr>
                 <td scope="row">{{ item.sl_no}}</td>
-                <td scope="row">{{ item.item_code}}</td>
+                <td scope="row"><a href="{% url 'webapp:details' item.item_code %}">{{ item.item_code}}</a></td>
                 <td scope="row">{{ item.date_issue}}</td>
                 <td scope="row">{{ item.item_issue_qty}}</td>
                 <td scope="row">{{ item.item_issue_rate}}</td>

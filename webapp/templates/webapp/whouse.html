@@ -10,6 +10,8 @@
           <th scope="col"><span style="color:white"><i>Ware House Name</i></span></th>
           <th scope="col"><span style="color:white"><i>Ware House Manager</i></span></th>
           <th scope="col"><span style="color:white"><i>Ware House Contact</i></span></th>
+          <th scope="col"><span style="color:white"><i>Edit</i></span></th>
+          <th scope="col"><span style="color:white"><i>Delete</i></span></th>
         </tr>
       </thead>
         <tbody>
@@ -19,6 +21,8 @@
                 <td scope="row">{{ item.whouse_name}}</td>
                 <td scope="row">{{ item.whouse_head_name}}</td>
                 <td scope="row">{{ item.whouse_mobile}}</td>
+                <td scope="row"><a href="{% url 'webapp:whouse-update' item.whouse_code %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                <td scope="row"><a href="{% url 'webapp:whouse-delete' item.whouse_code %}"><span class="glyphicon glyphicon-trash"></span></a></td>
             </tr>
             {% endfor %}
 
