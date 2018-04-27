@@ -1,6 +1,6 @@
 # modules for creating class and getting database object
 from django.views import generic
-from .models import MasterIn, IssueIn, ConsumIn, WhouseIn
+from .models import MasterIn, IssueIn, ConsumIn, WhouseIn, ItemIn
 # to render a template & to
 from django.shortcuts import render
 # to use login_required
@@ -68,6 +68,14 @@ class IssueInView(LoginRequiredMixin, generic.ListView):
 class IssueInAdd(CreateView):
     model = IssueIn
     fields = ['item_code', 'date_issue', 'item_issue_qty', 'item_issue_rate' ]
+
+class ItemInView(LoginRequiredMixin, generic.ListView):
+    login_url = '/login/'  # what is the login_url
+    redirect_field_name = '/login/'
+    template_name = 'webapp/item.html' #which template should i use to return?
+    #context_object_name = 'all_items' # for List it return object_list to change it to our name object use this
+    def get_queryset(self):
+        return ItemIn.objects.all()
 
 class WhouseInView(LoginRequiredMixin, generic.ListView):
     login_url = '/login/'  # what is the login_url

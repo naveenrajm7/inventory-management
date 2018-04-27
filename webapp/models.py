@@ -46,7 +46,7 @@ class MasterIn(models.Model):
 
 
 class ConsumIn(models.Model):
-    sl_no = models.IntegerField(primary_key=True)
+    sl_no = models.AutoField(primary_key=True)
     item_code = models.ForeignKey('MasterIn', models.DO_NOTHING, db_column='item_code', blank=False, null=False)
     date_consum = models.DateField(db_column='Date_consum', blank=False, null=False)  # Field name made lowercase.
     item_consum_qty = models.DecimalField(db_column='Item_consum_qty', max_digits=15, decimal_places=2, blank=False, null=False)  # Field name made lowercase.
@@ -62,7 +62,7 @@ class ConsumIn(models.Model):
 
 
 class IssueIn(models.Model):
-    sl_no = models.IntegerField(primary_key=True)
+    sl_no = models.AutoField(primary_key=True)
     item_code = models.ForeignKey('MasterIn', models.DO_NOTHING, db_column='item_code', blank=False, null=False)
     date_issue = models.DateField(db_column='Date_issue', blank=False, null=False)  # Field name made lowercase.
     item_issue_qty = models.DecimalField(db_column='Item_issue_qty', max_digits=15, decimal_places=2, blank=False, null=False)  # Field name made lowercase.

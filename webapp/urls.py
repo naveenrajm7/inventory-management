@@ -19,6 +19,7 @@ urlpatterns = [
     path('issue/', views.IssueInView.as_view(), name ='issue'),
     path('whouse/add/', views.WhouseInAdd.as_view(), name ='whouse-add'),
     path('whouse/', views.WhouseInView.as_view(), name ='whouse'),
+    path('item/', views.ItemInView.as_view(), name = 'item'),
     # 'whouse/update'
     re_path(r'^whouse/(?P<pk>[0-9]+)/$', views.WhouseInUpdate.as_view(), name ='whouse-update'),
     re_path(r'^whouse/(?P<pk>[0-9]+)/delete/$', views.WhouseInDelete.as_view(), name ='whouse-delete'),
