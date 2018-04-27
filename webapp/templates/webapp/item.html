@@ -1,14 +1,32 @@
 {% extends "webapp/head.html" %}
-{% block title %} Item {% endblock %}
+{% block title %}Item Details{% endblock %}
 {% block content %}
 {% if object_list %}
-    <h3>Item list:</h3>
-        <ol>
+    <h3>Item Details:</h3>
+    <table class="table table-striped table-bordered ">
+      <thead class="table thead-inverse">
+        <tr  bgcolor="black">
+          <th scope="col"><span style="color:white"><i>Item Code</i></span></th>
+          <th scope="col"><span style="color:white"><i>Item Name</i></span></th>
+          <th scope="col"><span style="color:white"><i>Item Reorder Qty</i></span></th>
+          <th scope="col"><span style="color:white"><i>Item Reorder Level</i></span></th>
+          <th scope="col"><span style="color:white"><i>Item Vendor Name</i></span></th>
+        </tr>
+      </thead>
+        <tbody>
             {% for item in object_list %}
-                <li><a href="{% url 'webapp:item' item.item_code %}">{{ item.item_name }}</a></li>
+            <tr>
+                <td scope="row">{{ item.item_code}}</td>
+                <td scope="row">{{ item.item_name}}</td>
+                <td scope="row">{{ item.item_reorder_qty}}</td>
+                <td scope="row">{{ item.item_reorder_level}}</td>
+                <td scope="row">{{ item.item_vendor_name}}</td>
+            </tr>
             {% endfor %}
-        </ol>
+
+        </tbody>
+    </table>
 {% else %}
-    <h3>No Items registered<h3>
+    <h3>NO item Details<h3>
 {% endif %}
 {% endblock %}

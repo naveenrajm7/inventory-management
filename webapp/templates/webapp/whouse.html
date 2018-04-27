@@ -3,11 +3,27 @@
 {% block content %}
 {% if object_list %}
     <h3>Ware house list:</h3>
-        <ol>
+    <table class="table table-striped table-bordered ">
+      <thead class="table thead-inverse">
+        <tr  bgcolor="black">
+          <th scope="col"><span style="color:white"><i>Ware House Code</i></span></th>
+          <th scope="col"><span style="color:white"><i>Ware House Name</i></span></th>
+          <th scope="col"><span style="color:white"><i>Ware House Manager</i></span></th>
+          <th scope="col"><span style="color:white"><i>Ware House Contact</i></span></th>
+        </tr>
+      </thead>
+        <tbody>
             {% for item in object_list %}
-                <li><a href="{% url 'webapp:details' item.whouse_code %}">{{ item.whouse_name }}</a></li>
+            <tr>
+                <td scope="row">{{ item.whouse_code}}</td>
+                <td scope="row">{{ item.whouse_name}}</td>
+                <td scope="row">{{ item.whouse_head_name}}</td>
+                <td scope="row">{{ item.whouse_mobile}}</td>
+            </tr>
             {% endfor %}
-        </ol>
+
+        </tbody>
+    </table>
 {% else %}
     <h3>No ware house registered<h3>
 {% endif %}
