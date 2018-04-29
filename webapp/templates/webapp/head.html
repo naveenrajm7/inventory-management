@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="{% static 'webapp/css/bootstrap.min.css' %}" type = "text/css"/>
 	<meta name="viewport" content = "width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'webapp/css/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'webapp/css/help.css' %}">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="{% static 'webapp/js/nav-active.js' %}"></script>
 
@@ -85,9 +86,12 @@
             <li><a href="/consum">Sold List</a></li>
             <li><a href="/issue">Bought List</a></li>
             <li><a href="/whouse">Ware House</a></li>
-            <li><a href="/item">Items</a></li>
+            <li><a href="/item">Items</a></li><hr style="border-top: dotted 1px;" />
             <li><a href="/fsn">FSN</a></li>
-            <li><a href="/reorder">Reorder List</a></li>
+            <li><a href="/abc">ABC</a></li>
+            <li><a href="/not">Dead Stock</a></li>
+            <li><a href="/reorder">Reorder List</a></li><hr>
+            <li><a href="/help">Help?</a><li>
        </ul>
     </div>
 
@@ -102,6 +106,7 @@
     </div>
 
     </div>
+
     <!-- Menu toggle script -->
     <script>
         $('#menu-toggle').click(
@@ -110,27 +115,27 @@
                 $('#wrapper').toggleClass("menuDispalyed");
             });
     </script>
-<!-- Small modal -->
-<div class="modal" id="logoutModal" tabindex="-1" role="dialog" aria-hidden="true">
-<div class="modal-dialog modal-sm">
-<div class="modal-content">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-    <h4>Log Out <i class="fa fa-lock"></i></h4>
-  </div>
-  <div class="modal-body">
-    <p><i class="fa fa-question-circle"></i> Are you sure you want to log-off? <br /></p>
-    <div class="actionsBtns">
-        <form action="/logout" method="post">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <input type="submit" class="btn btn-default btn-primary" data-dismiss="modal" value="Logout" />
-                <button class="btn btn-default" data-dismiss="modal">Cancel</button>
-        </form>
-    </div>
-  </div>
+
+<!-- floating help -->
+<div class="help-button-wrapper">
+  <ul class="help-list">
+    <li><a href="/help#do">Do Transcations</a></li>
+    <li><a href="/help#view">View Transcations</a></li>
+    <li><a href="/help#general">General Help</a></li>
+  </ul>
+  <button class="help-button">
+    <span>?</span>
+    Get Help
+  </button>
 </div>
-</div>
-</div>
+
+<!-- help toggle script -->
+<script>
+    $('.help-button').on('click', function(){
+        $('.help-button-wrapper').toggleClass('expanded');
+    });
+</script>
+
 
 {% include "webapp/includes/footer.html" %}
 </body>

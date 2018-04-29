@@ -32,6 +32,8 @@ urlpatterns = [
     re_path(r'^item/(?P<pk>[0-9]+)/delete/$', views.ItemInDelete.as_view(), name ='item-delete'),
     # display fsn list
     path('fsn/', views.fast_moving, name = 'fsn'),
-    path('reorder/', views.reorder, name = 'reorder')
-
+    path('reorder/', views.reorder, name = 'reorder'),
+    path('abc/', views.abc_list, name = 'abc_list'),
+    path('not/', views.n_list, name = 'n_list'),
+    path('help/', views.help, name = 'help')
 ]

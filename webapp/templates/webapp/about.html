@@ -1,9 +1,12 @@
 {% extends "webapp/base.html" %}
+{% load static %}
 {% block title %}About Us {% endblock %}
 {% block body %}
     {% for c in dict_content %}
         <p> {{c}} </p>
-    {% endfor %}
+    {% endfor %}<br>
+    How this works: GIF guide
+    <img src="{% static 'webapp/img/out.gif' %}" width="1100" height="500" alt="howtogif"><br><br>
     Source Code on : <a href="https://github.com/naveenrajm7/inventory-management"><i class="fa fa-github" style="font-size:36px"></i> GitHub</a>
 
 {% endblock %}

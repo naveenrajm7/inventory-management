@@ -1,6 +1,10 @@
 {% extends 'webapp/base.html' %}
-
+{% load staticfiles %}
 {% block body %}
-        <h3>Welcome!</h3>
-
+        <h2>Welcome!</h2>
+        <pre>
+        <q>One of the great responsibilities that I have is to manage my assets wisely, so that they create value.</q>
+                                                                                                                -Alice Walton
+    </pre>
+    <img src="{% static 'webapp/img/inventory.gif' %}" width="1200" height="375" alt="gif">
 {% endblock %}

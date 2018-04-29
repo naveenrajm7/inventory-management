@@ -1,0 +1,32 @@
+{% extends "webapp/head.html" %}
+{% block title %} {{ title }}{% endblock %}
+{% block content %}
+{% if object_list %}
+    <h3> {{ title }}</h3>
+    <table class="table table-striped table-bordered ">
+      <thead class="table thead-inverse">
+        <tr  bgcolor="black">
+          <th scope="col"><span style="color:white"><i>Item Code</i></span></th>
+          <th scope="col"><span style="color:white"><i>Item Name</i></span></th>
+          <th scope="col"><span style="color:white"><i>Balance Qty</i></span></th>
+          <th scope="col"><span style="color:white"><i>Item Rate </i></span></th>
+          <th scope="col"><span style="color:white"><i>Item Dead Stock Amount</i></span></th>
+        </tr>
+      </thead>
+        <tbody>
+            {% for item in object_list %}
+            <tr>
+                <td scope="row">{{ item.item_code }}</td>
+                <td scope="row">{{ item.item_name }}</td>
+                <td scope="row">{{ item.item_bal_qty }}</td>
+                <td scope="row">{{ item.item_rate }}</td>
+                <td scope="row">{{ item.dead_stock_amt }}</td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+{% else %}
+    <h3>No Items <h3>
+{% endif %}
+{% endblock %}

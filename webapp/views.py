@@ -32,7 +32,9 @@ class HomeView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return MasterIn.objects.all()
 
-class MasterInAdd(CreateView):
+class MasterInAdd(LoginRequiredMixin, CreateView):
+    login_url = '/login/'
+    redirect_field_name = '/login/'
     model = MasterIn
     fields = ['item_code', 'item_name', 'item_qty', 'item_rate', 'item_bal_qty', 'item_new_rate', 'whouse_code' ]
 # product detail view
@@ -51,8 +53,10 @@ class ConsumInView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return ConsumIn.objects.all()
 
-# to create a new ConsumIn --> buying something into Inventory
-class ConsumInAdd(CreateView):
+# to create a new ConsumIn --> selling something out Inventory
+class ConsumInAdd(LoginRequiredMixin, CreateView):
+    login_url = '/login/'
+    redirect_field_name = '/login/'
     model = ConsumIn
     fields = ['item_code', 'date_consum', 'item_consum_qty', 'item_consum_rate' ]
 
@@ -64,8 +68,10 @@ class IssueInView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return IssueIn.objects.all()
 
-# to create a new IssueIn --> selling something out of Inventory
-class IssueInAdd(CreateView):
+# to create a new IssueIn --> bringing item into Inventory
+class IssueInAdd(LoginRequiredMixin, CreateView):
+    login_url = '/login/'
+    redirect_field_name = '/login/'
     model = IssueIn
     fields = ['item_code', 'date_issue', 'item_issue_qty', 'item_issue_rate' ]
 
@@ -79,17 +85,23 @@ class WhouseInView(LoginRequiredMixin, generic.ListView):
         return WhouseIn.objects.all()
 
 # to add whouse
-class WhouseInAdd(CreateView):
+class WhouseInAdd(LoginRequiredMixin, CreateView):
+    login_url = '/login/'
+    redirect_field_name = '/login/'
     model = WhouseIn
     fields = ['whouse_code', 'whouse_name', 'whouse_address', 'whouse_location', 'whouse_city',
             'whouse_phone', 'whouse_mobile', 'whouse_head_name', 'whouse_pincode' ]
 
-class WhouseInUpdate(UpdateView):
+class WhouseInUpdate(LoginRequiredMixin, UpdateView):
+    login_url = '/login/'
+    redirect_field_name = '/login/'
     model = WhouseIn
     fields = ['whouse_code', 'whouse_name', 'whouse_address', 'whouse_location', 'whouse_city',
             'whouse_phone', 'whouse_mobile', 'whouse_head_name', 'whouse_pincode' ]
 
-class WhouseInDelete(DeleteView):
+class WhouseInDelete(LoginRequiredMixin, DeleteView):
+    login_url = '/login/'
+    redirect_field_name = '/login/'
     model = WhouseIn
     success_url = reverse_lazy('webapp:whouse')
 
@@ -100,17 +112,23 @@ class ItemInView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return ItemIn.objects.all()
 
-class ItemInAdd(CreateView):
+class ItemInAdd(LoginRequiredMixin, CreateView):
+    login_url = '/login/'
+    redirect_field_name = '/login/'
     model = ItemIn
     fields = ['item_code', 'item_name', 'item_reorder_qty', 'item_reorder_rate', 'item_reorder_level',
             'item_vendor_name', 'item_vendor_address' ]
 
-class ItemInUpdate(UpdateView):
+class ItemInUpdate(LoginRequiredMixin, UpdateView):
+    login_url = '/login/'
+    redirect_field_name = '/login/'
     model = ItemIn
     fields = ['item_code', 'item_name', 'item_reorder_qty', 'item_reorder_rate', 'item_reorder_level',
             'item_vendor_name', 'item_vendor_address' ]
 
-class ItemInDelete(DeleteView):
+class ItemInDelete(LoginRequiredMixin, DeleteView):
+    login_url = '/login/'
+    redirect_field_name = '/login/'
     model = ItemIn
     success_url = reverse_lazy('webapp:item')
 
@@ -122,6 +140,7 @@ def dictfetchall(cursor):
         for row in cursor.fetchall()
     ]
 
+@login_required(login_url='/login/')
 def update_master(request):
     template_name = 'webapp/home.html' #which template should i use to return?
     context = {
@@ -140,6 +159,7 @@ def update_master(request):
         where a.item_code=b.item_code;")
     return render(request, template_name, context)
 
+@login_required(login_url='/login/')
 def fast_moving(request):
     template_name = 'webapp/fsn.html'
     with connection.cursor() as cursor:
@@ -152,6 +172,7 @@ def fast_moving(request):
     }
     return render(request, template_name, context)
 
+@login_required(login_url='/login/')
 def reorder(request):
     template_name = 'webapp/reorder.html'
     with connection.cursor() as cursor:
@@ -165,3 +186,39 @@ def reorder(request):
         "title": "Reorder List"
     }
     return render(request, template_name, context)
+
+@login_required(login_url='/login/')
+def abc_list(request):
+    template_name = 'webapp/abc_list.html'
+    with connection.cursor() as cursor:
+        cursor.execute("select `master_in`.`item_code` AS `item_code`,`master_in`.`Item_name` AS `item_name`,`master_in`.`Item_bal_qty` \
+        AS `item_bal_qty`,(`master_in`.`Item_bal_qty` * `master_in`.`Item_rate`) AS `item_inventory_amount` from \
+        `master_in` order by (`master_in`.`Item_bal_qty` * `master_in`.`Item_rate`) desc ;")
+        abc_list = dictfetchall(cursor)
+
+    context = {
+        "object_list": abc_list,
+        "title": "ABC List"
+    }
+    return render(request, template_name, context)
+
+@login_required(login_url='/login/')
+def n_list(request):
+    ''' Not moving items '''
+    template_name = 'webapp/n_list.html'
+    with connection.cursor() as cursor:
+        cursor.execute("select `master_in`.`item_code` AS `item_code`,`master_in`.`Item_name` AS `item_name`,`master_in`.`Item_qty` \
+        AS `item_qty`,`master_in`.`Item_rate` AS `item_rate`,`master_in`.`Item_bal_qty` AS `item_bal_qty`,(`master_in`.`Item_qty` * `master_in`.`Item_rate`) \
+        AS `dead_stock_amt` from `master_in` where (not(`master_in`.`item_code` in (select `consum_in`.`item_code` from `consum_in`)));")
+        n_list = dictfetchall(cursor)
+
+    context = {
+        "object_list": n_list,
+        "title": "Not Moving item List"
+    }
+    return render(request, template_name, context)
+
+@login_required(login_url='/login/', redirect_field_name='login_error.html')
+def help(request):
+    template_name = 'webapp/help.html'
+    return render(request, template_name, {"title": "Help"})
