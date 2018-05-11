@@ -21,12 +21,12 @@ Contains Steps to use website
 
 To carry out Transcations Do -
 
-1. Adding Items to Master table ->  Add
-2. To Sell Items -> click on  Sell
-3. To Buy Items -> click on  Buy
-4. Adding Ware house to list -> click on  Ware
-5. To add details of item -> click on  Item
-6. To Update the Master table -> click on  Update
+    1. Adding Items to Master table ->  Add
+    2. To Sell Items -> click on  Sell
+    3. To Buy Items -> click on  Buy
+    4. Adding Ware house to list -> click on  Ware
+    5. To add details of item -> click on  Item
+    6. To Update the Master table -> click on  Update
             * Update must be clicked only after designated period (like end of month,week)
 
 To view Transcations and status of inventory -
