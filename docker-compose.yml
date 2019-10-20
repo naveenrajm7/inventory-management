@@ -1,0 +1,22 @@
+version: '3'
+services:
+    db:
+        container_name: inventory_db
+        image: mysql:5.7
+        environment:
+            MYSQL_DATABASE: 'my-app-db'
+            MYSQL_USER: 'root'
+            MYSQL_ROOT_PASSWORD: 'password'
+        volumes:
+            - inventory_volume:/var/lib/mysql
+    web:
+        container_name: inventory_web
+        build: .
+        image: naveenrajm/inventory-management-django
+        command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+        ports: 
+            - '8000:8000'
+        depends_on:
+            - db
+volumes:
+    inventory_volume:
